@@ -14,21 +14,76 @@ JST = timezone(timedelta(hours=9))
 RUNNER_DIR = "runner"
 os.makedirs(RUNNER_DIR, exist_ok=True)
 
-@app.route('/run', methods=['POST'])
+@app.route("/run", methods=["POST"])
 def run_code():
     data = request.json
-    code = data.get("code", "")
-    lang = data.get("language", "java")
+    code = data.get("code")
+    language = data.get("language")
+    mode = data.get("mode", "run")  # デフォルトは「実行」
+    problem_id = data.get("problem_id")
     user_input = data.get("input", "")
 
-    if lang == "java":
-        return run_java(code, user_input)
-    elif lang == "python":
-        return run_python(code, user_input)
-    # elif lang == "c":
-    #     return run_c(code, user_input)
+    # 単純な実行のみ
+    if mode == "run":
+        output = execute_code(code, user_input, language)
+        return jsonify({"output": output})
+
+    # テストモード（test_cases を使って判定）
+    elif mode == "test" and problem_id:
+        problem = load_problem_by_id(problem_id, "code")
+        if not problem or "test_cases" not in problem:
+            return jsonify({"error": "問題またはテストケースが見つかりません"}), 400
+
+        results = []
+        all_passed = True
+        for case in problem["test_cases"]:
+            input_data = case["input"]
+            expected = (case["expected_output"] or "").strip()
+            actual = execute_code(code, input_data, language).strip()
+
+            passed = actual == expected  # ← これを先に
+            print("📥 input:", repr(input_data))
+            print("📤 expected:", repr(expected))
+            print("🔎 actual:", repr(actual))
+            print("✅ pass:", passed)
+
+            passed = actual == expected
+            if not passed:
+                all_passed = False
+            results.append({
+                "input": input_data,
+                "expected": expected,
+                "actual": actual,
+                "pass": passed
+            })
+
+        return jsonify({
+            "status": "pass" if all_passed else "fail",
+            "results": results
+        })
+
+    return jsonify({"error": "無効なリクエスト"}), 400
+
+def load_problem_by_id(problem_id: str, problem_type: str = "code") -> dict:
+    """
+    指定されたIDの問題を problems/code.json または problems/quiz.json から取得。
+    """
+    path = "problems/code.json" if problem_type == "code" else "problems/quiz.json"
+    try:
+        with open(path, encoding="utf-8") as f:
+            problems = json.load(f)
+            return next((p for p in problems if p["id"] == problem_id), None)
+    except Exception as e:
+        print("❌ 問題読み込みエラー:", e)
+        return None
+
+def execute_code(code: str, input_data: str, language: str) -> str:
+    if language == "python":
+        return run_python(code, input_data)
+    elif language == "java":
+        return run_java(code, input_data)
     else:
-        return jsonify({"output": "Unsupported language"})
+        return "未対応の言語です"
 
 def run_java(code, user_input):
     java_file = os.path.join(RUNNER_DIR, "Hello.java")
@@ -44,7 +99,7 @@ def run_java(code, user_input):
             timeout=5
         )
         if compile_proc.returncode != 0:
-            return jsonify({"output": compile_proc.stderr})
+            return compile_proc.stderr
 
         run_proc = subprocess.run(
             ["java", "-cp", RUNNER_DIR, "Hello"],
@@ -53,10 +108,10 @@ def run_java(code, user_input):
             text=True,
             timeout=5
         )
-        return jsonify({"output": run_proc.stdout + run_proc.stderr})
+        return run_proc.stdout + run_proc.stderr
 
     except subprocess.TimeoutExpired:
-        return jsonify({"output": "Time Limit Exceeded"})
+        return "Time Limit Exceeded"
     
 def run_python(code, user_input):
     py_file = os.path.join(RUNNER_DIR, "main.py")
@@ -72,10 +127,10 @@ def run_python(code, user_input):
             text=True,
             timeout=5
         )
-        return jsonify({"output": proc.stdout + proc.stderr})
+        return proc.stdout + proc.stderr
     
     except subprocess.TimeoutExpired:
-        return jsonify({"output": "Time Limit Exceeded"})
+        return "Time Limit Exceeded"
 
 
 @app.route('/problems', methods=['GET'])

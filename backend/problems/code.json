@@ -5,9 +5,14 @@
     "genre": "入門",
     "type": "code",
     "title": "Hello World",
-    "description": "Javaで「Hello World」を出力してください。",
-    "template_code": "public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello DevLadder!\");\n    }\n}",
-    "expected_output": "Hello DevLadder!"
+    "description": "標準入力から読み取った文字列[Hello World]をそのまま出力してください。",
+    "template_code": "import java.util.Scanner;\npublic class Hello {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String line = sc.nextLine();\n        System.out.println(line);\n    }\n}",
+    "test_cases": [
+      {
+        "input": "Hello World]",
+        "expected_output": "Hello World]"
+      }
+    ]
   },
   {
     "id": "java-repeat",
@@ -15,18 +20,51 @@
     "genre": "繰り返し",
     "type": "code",
     "title": "0〜4を出力",
-    "description": "for文を使って 0〜4 を出力してください。",
-    "template_code": "public class Hello {\n    public static void main(String[] args) {\n        // for文で出力\n    }\n}",
-    "expected_output": "01234"
+    "description": "標準入力で整数Nが与えられるので、0〜(N-1)までを1行で出力してください。",
+    "template_code": "import java.util.Scanner;\npublic class Hello {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        for (int i = 0; i < n; i++) {\n            System.out.print(i);\n        }\n    }\n}",
+    "test_cases": [
+      {
+        "input": "5",
+        "expected_output": "01234"
+      },
+      {
+        "input": "3",
+        "expected_output": "012"
+      }
+    ]
   },
-    {
+  {
     "id": "python-hello",
     "language": "python",
     "genre": "入門",
     "type": "code",
     "title": "Hello Python",
-    "description": "Pythonで「Hello Python」を出力してください。",
-    "template_code": "print (input())",
-    "expected_output": "Hello Python"
+    "description": "標準入力で受け取った文字列[Hello Python]をそのまま出力してください。",
+    "template_code": "text = input()\nprint(text)",
+    "test_cases": [
+      {
+        "input": "Hello Python",
+        "expected_output": "Hello Python"
+      }
+    ]
+  },
+  {
+  "id": "python-repeat",
+  "language": "python",
+  "genre": "繰り返し",
+  "type": "code",
+  "title": "0〜N-1の出力",
+  "description": "標準入力で整数Nが与えられるので、0〜(N-1)までを1行で出力してください。",
+  "template_code": "n = int(input())\nfor i in range(n):\n    print(i, end='')",
+  "test_cases": [
+    {
+      "input": "5",
+      "expected_output": "01234"
+    },
+    {
+      "input": "3",
+      "expected_output": "012"
+    }
+  ]
   }
 ]

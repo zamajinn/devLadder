@@ -66,7 +66,8 @@ Example request:
 {
   "code": "print('Hello')",
   "language": "python",
-  "input": ""
+  "input": "",
+  "mode": "run" or "test"
 }
 ```
 
