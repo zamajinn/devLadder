@@ -1,0 +1,32 @@
+[
+  {
+    "id": "java-hello",
+    "language": "java",
+    "genre": "入門",
+    "type": "code",
+    "title": "Hello World",
+    "description": "Javaで「Hello World」を出力してください。",
+    "template_code": "public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello DevLadder!\");\n    }\n}",
+    "expected_output": "Hello DevLadder!"
+  },
+  {
+    "id": "java-repeat",
+    "language": "java",
+    "genre": "繰り返し",
+    "type": "code",
+    "title": "0〜4を出力",
+    "description": "for文を使って 0〜4 を出力してください。",
+    "template_code": "public class Hello {\n    public static void main(String[] args) {\n        // for文で出力\n    }\n}",
+    "expected_output": "01234"
+  },
+    {
+    "id": "python-hello",
+    "language": "python",
+    "genre": "入門",
+    "type": "code",
+    "title": "Hello Python",
+    "description": "Pythonで「Hello Python」を出力してください。",
+    "template_code": "print (input())",
+    "expected_output": "Hello Python"
+  }
+]

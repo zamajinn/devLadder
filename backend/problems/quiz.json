@@ -1,0 +1,48 @@
+[
+  {
+    "id": "java-hello",
+    "type": "select",
+    "title": "Javaの文末に必要な記号は？",
+    "genre": "基礎知識",
+    "description": "Javaの各文の末尾には何を付ける必要がありますか？",
+    "choices": ["カンマ (,)", "ドット (.)", "セミコロン (;)", "コロン (:)"],
+    "answer": "セミコロン (;)"
+  },
+  {
+    "id": "java-main-method",
+    "type": "select",
+    "title": "Javaのmainメソッドの正しい宣言は？",
+    "genre": "構文",
+    "description": "Javaアプリケーションのエントリーポイントである main メソッドを正しく定義してください。",
+    "choices": [
+      "void main(String args[])",
+      "static void main(String[] args)",
+      "public static void main(String[] args)",
+      "main public static String[] args"
+    ],
+    "answer": "public static void main(String[] args)"
+  },
+  {
+    "id": "java-variable-type",
+    "type": "select",
+    "title": "整数を格納する基本型は？",
+    "genre": "変数と型",
+    "description": "Javaで整数（小数ではない）を格納したいときに使うプリミティブ型はどれですか？",
+    "choices": ["String", "int", "double", "boolean"],
+    "answer": "int"
+  },
+  {
+    "id": "java-print",
+    "type": "select",
+    "title": "画面に文字を出力する方法は？",
+    "genre": "入出力",
+    "description": "Javaで標準出力に文字列を表示したい場合、正しいコードはどれですか？",
+    "choices": [
+      "Console.WriteLine(\"Hello\")",
+      "print(\"Hello\")",
+      "System.out.println(\"Hello\")",
+      "echo \"Hello\""
+    ],
+    "answer": "System.out.println(\"Hello\")"
+  }
+]

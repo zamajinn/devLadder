@@ -1,0 +1,25 @@
+# Node.js（React frontend）
+frontend/devladder-react/node_modules/
+frontend/devladder-react/.env
+frontend/devladder-react/build
+frontend/devladder-react/dist
+
+# Python（Flask backend）
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# OS・エディタ系
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# SQLite DB（必要に応じて）
+backend/db/devladder.db
+
+# 実行時生成ファイル
+backend/runner/*.class
+backend/runner/*.java
+backend/runner/*.py
